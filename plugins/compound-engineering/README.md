@@ -47,23 +47,23 @@ The primary entry points for engineering work, invoked as slash commands. Detail
 
 | Skill | Description |
 |-------|-------------|
-| `ce-clean-gone-branches` | Clean up local branches whose remote tracking branch is gone |
-| `ce-commit` | Create a git commit with a value-communicating message |
+| [`ce-clean-gone-branches`](../../docs/skills/ce-clean-gone-branches.md) | Clean up local branches whose remote tracking branch is gone |
+| [`ce-commit`](../../docs/skills/ce-commit.md) | Create a git commit with a value-communicating message |
 | [`ce-commit-push-pr`](../../docs/skills/ce-commit-push-pr.md) | Commit, push, and open a PR with an adaptive description; also update an existing PR description, or generate a description on its own without committing |
-| `ce-worktree` | Manage Git worktrees for parallel development |
+| [`ce-worktree`](../../docs/skills/ce-worktree.md) | Manage Git worktrees for parallel development |
 
 ### Workflow Utilities
 
 | Skill | Description |
 |-------|-------------|
 | [`/ce-demo-reel`](../../docs/skills/ce-demo-reel.md) | Capture a visual demo reel (GIF demos, terminal recordings, screenshots) for PRs with project-type-aware tier selection |
-| `/ce-report-bug` | Report a bug in the compound-engineering plugin |
+| [`/ce-report-bug`](../../docs/skills/ce-report-bug.md) | Report a bug in the compound-engineering plugin |
 | [`/ce-resolve-pr-feedback`](../../docs/skills/ce-resolve-pr-feedback.md) | Resolve PR review feedback in parallel |
 | [`/ce-test-browser`](../../docs/skills/ce-test-browser.md) | Run browser tests on PR-affected pages |
 | [`/ce-test-xcode`](../../docs/skills/ce-test-xcode.md) | Build and test iOS apps on simulator using XcodeBuildMCP |
-| `/ce-setup` | Diagnose environment, install missing tools, and bootstrap project config |
+| [`/ce-setup`](../../docs/skills/ce-setup.md) | Diagnose environment, install missing tools, and bootstrap project config |
 | [`/ce-update`](../../docs/skills/ce-update.md) | Check compound-engineering plugin version and fix stale cache (Claude Code only) |
-| `/ce-release-notes` | Summarize recent compound-engineering plugin releases, or answer a question about a past release with a version citation |
+| [`/ce-release-notes`](../../docs/skills/ce-release-notes.md) | Summarize recent compound-engineering plugin releases, or answer a question about a past release with a version citation |
 
 ### Development Frameworks
 
@@ -71,7 +71,7 @@ The primary entry points for engineering work, invoked as slash commands. Detail
 |-------|-------------|
 | `ce-agent-native-architecture` | Build AI agents using prompt-native architecture |
 | `ce-dhh-rails-style` | Write Ruby/Rails code in DHH's 37signals style |
-| `ce-frontend-design` | Create production-grade frontend interfaces |
+| [`ce-frontend-design`](../../docs/skills/ce-frontend-design.md) | Create production-grade frontend interfaces |
 
 ### Review & Quality
 
@@ -84,7 +84,7 @@ The primary entry points for engineering work, invoked as slash commands. Detail
 
 | Skill | Description |
 |-------|-------------|
-| `ce-proof` | Create, edit, and share documents via Proof collaborative editor |
+| [`ce-proof`](../../docs/skills/ce-proof.md) | Create, edit, and share documents via Proof collaborative editor |
 
 ### Automation & Tools
 

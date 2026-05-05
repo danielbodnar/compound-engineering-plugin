@@ -195,6 +195,6 @@ Use the description-only mode to generate the body, then apply yourself with `gh
 
 - [`ce-work`](./ce-work.md) — Phase 4 handoff target; standard upstream caller
 - [`ce-debug`](./ce-debug.md) — calls this skill after a successful fix on a skill-owned branch
-- [`ce-commit`](../../plugins/compound-engineering/skills/ce-commit/) — local-commit-only sibling; use when you don't want to push or open a PR
+- [`ce-commit`](./ce-commit.md) — local-commit-only sibling; use when you don't want to push or open a PR
 - [`ce-demo-reel`](./ce-demo-reel.md) — invoked for evidence capture when behavior is observable
 - [`ce-compound`](./ce-compound.md) — capture reusable learning; can chain back into this skill to push the learning doc

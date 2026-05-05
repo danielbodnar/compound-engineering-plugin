@@ -194,4 +194,4 @@ The optimization branch (`optimize/<spec-name>`) with all kept-experiment commit
 
 - [`ce-code-review`](./ce-code-review.md) — Phase 4.3 hand-off for reviewing the cumulative diff
 - [`ce-compound`](./ce-compound.md) — capture the winning strategy as institutional learning
-- [`ce-worktree`](../../plugins/compound-engineering/skills/ce-worktree/) — manual worktree creation if you want to set up isolation outside the optimize loop
+- [`ce-worktree`](./ce-worktree.md) — manual worktree creation if you want to set up isolation outside the optimize loop

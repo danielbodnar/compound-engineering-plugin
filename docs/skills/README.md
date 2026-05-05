@@ -62,7 +62,26 @@ The primary entry points for engineering work.
 
 | Skill | Description |
 |-------|-------------|
+| [`/ce-commit`](./ce-commit.md) | Create a single, well-crafted git commit — convention-aware, sensitive-file-safe, file-level logical splitting |
 | [`/ce-commit-push-pr`](./ce-commit-push-pr.md) | Go from working changes to an open PR with adaptive descriptions — three modes (full workflow / description update / description-only generation) |
+| [`/ce-clean-gone-branches`](./ce-clean-gone-branches.md) | Delete local branches whose remote tracking branch is gone, including any associated worktrees |
+| [`/ce-worktree`](./ce-worktree.md) | Create a git worktree at `.worktrees/<branch>` with `.env` copying, branch-aware dev-tool trust, and gitignore management |
+
+---
+
+## Frontend Design
+
+| Skill | Description |
+|-------|-------------|
+| [`/ce-frontend-design`](./ce-frontend-design.md) | Build web interfaces with genuine design quality — context detection, visual-thesis pre-build, opinionated defaults, visual verification |
+
+---
+
+## Collaboration
+
+| Skill | Description |
+|-------|-------------|
+| [`/ce-proof`](./ce-proof.md) | Create, share, and run human-in-the-loop review loops over markdown via [Proof](https://www.proofeditor.ai), Every's collaborative editor — Web API and Local Bridge surfaces |
 
 ---
 
@@ -74,7 +93,10 @@ The primary entry points for engineering work.
 | [`/ce-resolve-pr-feedback`](./ce-resolve-pr-feedback.md) | Evaluate, fix, and reply to PR review feedback in parallel — including nitpicks |
 | [`/ce-test-browser`](./ce-test-browser.md) | End-to-end browser tests on PR / branch-affected pages using `agent-browser` exclusively |
 | [`/ce-test-xcode`](./ce-test-xcode.md) | Build and test iOS apps on simulator using XcodeBuildMCP — screenshots, logs, human verification |
+| [`/ce-setup`](./ce-setup.md) | Diagnose environment, install missing tools, bootstrap project-local config — interactive onboarding in one flow |
 | [`/ce-update`](./ce-update.md) | Check the installed compound-engineering plugin version against `main` and recommend the update command (Claude Code only) |
+| [`/ce-release-notes`](./ce-release-notes.md) | Look up what shipped in recent compound-engineering plugin releases — summary or specific question with version citation |
+| [`/ce-report-bug`](./ce-report-bug.md) | Report a bug in the compound-engineering plugin — structured intake, automatic env gathering, GitHub issue creation |
 
 ---
 

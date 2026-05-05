@@ -235,4 +235,4 @@ Only when code review uses `mode:report-only` (read-only). Other review modes mu
 - [`ce-test-xcode`](./ce-test-xcode.md) — sibling skill for iOS simulator testing
 - [`ce-demo-reel`](./ce-demo-reel.md) — captures visual evidence for PR descriptions; complementary to test summary
 - [`ce-work`](./ce-work.md) — orchestrator that may invoke this skill during Phase 3 verification
-- [`ce-setup`](../../plugins/compound-engineering/skills/ce-setup/) — installs `agent-browser` and other dependencies
+- [`ce-setup`](./ce-setup.md) — installs `agent-browser` and other dependencies

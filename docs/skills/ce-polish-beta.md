@@ -166,5 +166,5 @@ Polish often needs more than one session, and forcing a PR every time would clut
 
 - [`ce-work`](./ce-work.md) — build the feature first; polish second
 - [`ce-commit-push-pr`](./ce-commit-push-pr.md) — open the PR after polish is done
-- [`ce-frontend-design`](../../plugins/compound-engineering/skills/ce-frontend-design/) — for high-quality frontend design from scratch (different scope)
+- [`ce-frontend-design`](./ce-frontend-design.md) — for high-quality frontend design from scratch (different scope)
 - [`ce-debug`](./ce-debug.md) — for fixing bugs you find during polish, when root-cause investigation matters
