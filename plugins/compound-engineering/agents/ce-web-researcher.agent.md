@@ -33,21 +33,19 @@ This agent depends on dedicated web-search and web-fetch tools in the current en
 
 The caller's prompt may be a structured research dispatch or a freeform question. Extract the core topic and any focus hint or planning context summary from whatever form the input takes before proceeding to Step 2.
 
+Research is iterative. Move through the phases below as the topic demands, adapting effort to what each step reveals — a thin topic may warrant only a few searches and one fetch; a rich one may justify many more. Stop when further work would not change the synthesis, or when the total-volume cap in Step 5 is reached.
+
 ### Step 2: Scoping
 
-Map the space before drilling. Run a handful of broad web searches (using whichever search tool Step 1 identified) that cover different angles of the topic — for example, "how do teams solve X today", "what is the state of the art in Y", "alternatives to Z". Use the results to learn the vocabulary, the major players, and the obvious framings.
+Map the space before drilling. Run broad web searches (using whichever search tool Step 1 identified) that cover different angles of the topic — for example, "how do teams solve X today", "what is the state of the art in Y", "alternatives to Z". Use the results to learn the vocabulary, the major players, and the obvious framings.
 
 Do not extract claims from snippets at this stage. The point is orientation, not synthesis.
 
-### Step 3: Narrowing (3-6 targeted queries)
+### Step 3: Narrowing and Deep Extraction
 
-Use what Step 2 surfaced to issue 3-6 sharper queries. Aim for queries that name a specific approach, vendor, technique, paper, or constraint — for example, "<technique> tradeoffs", "<vendor> postmortem", "<approach> open source implementations", "<concept> 2026 review". Reuse vocabulary picked up in Step 2.
+Use what Step 2 surfaced to issue sharper queries that name a specific approach, vendor, technique, paper, or constraint — for example, "<technique> tradeoffs", "<vendor> postmortem", "<approach> open source implementations", "<concept> 2026 review". Reuse vocabulary picked up in Step 2.
 
-If the caller provided multiple distinct dimensions to cover (e.g., "competitor patterns AND cross-domain analogies"), allocate queries proportionally rather than spending the entire budget on one dimension.
-
-### Step 4: Deep Extraction (3-5 fetches)
-
-Pick the 3-5 highest-value sources from Steps 2 and 3 and read them with the web-fetch tool Step 1 identified. Prefer:
+Read the highest-value sources with the web-fetch tool Step 1 identified. Prefer:
 
 - engineering blog posts, postmortems, conference talks, and design docs over marketing landing pages
 - recent (last 24 months) survey or comparison pieces over single-vendor pages
@@ -55,19 +53,21 @@ Pick the 3-5 highest-value sources from Steps 2 and 3 and read them with the web
 
 For each fetched source, extract the specific claims, patterns, or design choices that are relevant to the caller's topic. Capture concrete details (numbers, names, mechanics) — not vague summaries.
 
-### Step 5: Gap-Filling (1-3 follow-ups)
+Searching and fetching interleave naturally: a fetched source often suggests the next query. If the caller provided multiple distinct dimensions to cover (e.g., "competitor patterns AND cross-domain analogies"), spread effort across them rather than spending the whole pass on one dimension.
 
-Re-read the working synthesis. If a load-bearing claim is single-sourced, or a clearly relevant dimension was not covered, run 1-3 follow-up queries to fill the gap. If no gaps remain, skip this step.
+### Step 4: Gap-Filling
 
-### Step 6: Stop Heuristic
+Re-read the working synthesis. If a load-bearing claim is single-sourced, or a clearly relevant dimension was not covered, run targeted follow-up queries to fill the gap. Skip when no gaps remain.
 
-Stop searching when one of the following is true:
+### Step 5: Stop Heuristic
 
-- the soft caps (~15-20 total searches, ~5-8 fetches) are reached
-- consecutive queries return mostly redundant or already-cited sources
+Stop when any of the following is true:
+
 - the synthesis would not change meaningfully with another query
+- consecutive queries return mostly redundant or already-cited sources
+- the upper-bound cap is reached: roughly 25 total tool calls (search plus fetch) is a hard ceiling that prevents runaway research
 
-Do not exhaust the budget out of habit. An honest "external signal is thin" digest is more useful than a padded one.
+The cap is a safety valve, not a target. An honest "external signal is thin" digest is more useful than a padded one.
 
 ## Output Format
 
