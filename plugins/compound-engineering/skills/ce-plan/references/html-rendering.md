@@ -173,6 +173,42 @@ a table.
 When a visualization disagrees with the surrounding prose, the prose
 governs. If they diverge, the visualization is wrong.
 
+### Hyperlink the reference index
+
+When the doc has a Sources & References (or equivalent reference-index)
+section, hyperlink each entry to its canonical destination so readers
+can open it directly. A long bare-text list of paths and ticket IDs is
+the format's biggest unforced UX miss — the reader has to copy-paste
+every entry into a browser or IDE.
+
+Resolve the repo's GitHub URL once at compose time:
+
+```bash
+git remote get-url origin
+```
+
+Apply linking to three reference shapes:
+
+- **Repo-relative code/doc paths** (`services/foo.ts`,
+  `docs/solutions/bar.md`) → `<repo-url>/blob/main/<path>`.
+- **Named GitHub PRs/issues** (`PR #636`, `issue #1048`) →
+  `<repo-url>/pull/636` or `<repo-url>/issues/1048`.
+- **Named external trackers** (Linear `ESP-1705`, Jira `PROJ-123`) →
+  link only when the workspace URL is established in loaded context
+  (e.g., a `linear.app/<workspace>/...` URL appeared earlier in the
+  session or in `AGENTS.md`); otherwise leave as text.
+
+**Do not invent URLs.** If `origin` isn't a GitHub URL (GitLab,
+Bitbucket, internal host) and the equivalent main-tree URL pattern
+isn't obvious, leave entries as `<code>` text. If the external
+tracker workspace isn't established, leave as text. A broken or
+guessed link is worse than no link.
+
+**Scope: reference index only, not inline prose.** Inline `<code>`
+mentions of paths or PRs inside paragraph prose stay as code or text.
+Linking every mention would clutter; readers expect clickable jumps
+where the doc presents itself as a reference index.
+
 ### Text contrast is local
 
 Every text-on-background pairing must hold up on its own. A color that

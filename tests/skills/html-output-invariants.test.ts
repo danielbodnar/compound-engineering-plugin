@@ -215,6 +215,33 @@ describe("html-rendering.md reference content invariants", () => {
     ).toBe(true)
   })
 
+  test("hyperlink the reference index (Sources & References)", () => {
+    // 2026-05-20: a real nugget-demographics plan HTML rendered Sources &
+    // References as bare <code> text — 9 file paths, 4 doc paths, 2 PRs, 1
+    // Linear ticket, all unlinked. The HTML format's UX win is clickable
+    // references; without linking, the section is worse than markdown.
+    expect(
+      /Hyperlink the reference index|reference index.*hyperlink|hyperlink each entry/i.test(REFERENCE),
+      "Reference must require hyperlinking entries in the Sources & References section.",
+    ).toBe(true)
+    expect(
+      /git remote get-url origin/.test(REFERENCE),
+      "Reference must name `git remote get-url origin` as the way to resolve the repo's GitHub URL at compose time.",
+    ).toBe(true)
+    expect(
+      /blob\/main/.test(REFERENCE),
+      "Reference must show the `<repo-url>/blob/main/<path>` URL shape for code/doc paths.",
+    ).toBe(true)
+    expect(
+      /Do not invent URLs|broken or guessed link is worse than no link/i.test(REFERENCE),
+      "Reference must forbid URL invention when the resolution path is unclear.",
+    ).toBe(true)
+    expect(
+      /reference index only|not inline prose|Scope:[\s\S]{0,40}reference index/i.test(REFERENCE),
+      "Reference must scope the linking rule to the reference index, not inline prose mentions.",
+    ).toBe(true)
+  })
+
   test("text contrast is local (defends against muted-on-tinted washout)", () => {
     expect(
       /Text contrast is local|contrast.*local|text-on-background pairing/i.test(REFERENCE),
