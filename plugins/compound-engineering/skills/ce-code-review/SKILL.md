@@ -498,11 +498,11 @@ Assemble the final report. **Default:** pipe-delimited markdown tables for findi
 
 **Findings table shape (default mode — load-bearing, do not improvise).** Render every finding as a row in a pipe-delimited table grouped by severity. Copy this shape; do not invent a layout:
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 1 | `path/to/file.go:42` | One concise line — detail lives in `why_it_matters`/JSON | correctness | 100 | `gated_auto -> downstream-resolver` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 1 | `path/to/file.go:42` | One concise line — detail lives in `why_it_matters`/JSON | correctness | 100 |
 
-Keep the `Issue` cell to a single concise line so rows stay narrow across terminals and non-Claude harnesses; depth belongs in `why_it_matters` (artifact/JSON), not the table. This inline skeleton is the always-loaded fallback so the shape survives a long session even if `references/review-output-template.md` was not reloaded — that template carries the full per-section rules.
+Per-severity tables are **5 columns** — `Route` is not shown here; it appears only in the Actionable Findings table (and the JSON), keeping the scannable tables narrow. Keep the `Issue` cell to a single concise line so rows stay narrow across terminals and non-Claude harnesses; depth belongs in `why_it_matters` (artifact/JSON), not the table. This inline skeleton is the always-loaded fallback so the shape survives a long session even if `references/review-output-template.md` was not reloaded — that template carries the full per-section rules.
 
 **Never produce these shapes (instant fail — if you catch one mid-draft, re-render every finding as the table above before delivering):**
 - Findings as `Field:`-prefixed blocks (`Sev:` / `File:` / `Issue:` / `Route:` lines)
@@ -511,7 +511,7 @@ Keep the `Issue` cell to a single concise line so rows stay narrow across termin
 - Unicode separators or arrows in the Route cell (middot `·`); use ASCII `->`
 
 1. **Header.** Scope, intent, mode, reviewer team with per-conditional justifications.
-2. **Findings.** Rendered as pipe-delimited tables grouped by severity (`### P0 -- Critical`, `### P1 -- High`, `### P2 -- Moderate`, `### P3 -- Low`). Each finding row shows `#`, file, issue, reviewer(s), confidence, and synthesized route. Omit empty severity levels. Never render findings as freeform text blocks or numbered lists. Finding numbers come from the stable assignment in Stage 5 -- never re-derive them per severity table.
+2. **Findings.** Rendered as pipe-delimited tables grouped by severity (`### P0 -- Critical`, `### P1 -- High`, `### P2 -- Moderate`, `### P3 -- Low`). Each finding row shows `#`, file, issue, reviewer(s), and confidence (5 columns). The synthesized route is **not** in these tables — it appears in the Actionable Findings section and the JSON. Omit empty severity levels. Never render findings as freeform text blocks or numbered lists. Finding numbers come from the stable assignment in Stage 5 -- never re-derive them per severity table.
 3. **Requirements Completeness.** Include only when a plan was found in Stage 2b. For each requirement (R1, R2, etc.) and implementation unit in the plan, report whether corresponding work appears in the diff. Use a simple checklist: met / not addressed / partially addressed. Routing depends on `plan_source`:
    - **`explicit`** (caller-provided or PR body): Flag unaddressed requirements or implementation units as P1 findings with `autofix_class: manual`, `owner: downstream-resolver`. These enter the actionable queue.
    - **`inferred`** (auto-discovered): Flag unaddressed requirements or implementation units as P3 findings with `autofix_class: advisory`, `owner: human`. These stay in the report only — no autonomous follow-up. An inferred plan match is a hint, not a contract.

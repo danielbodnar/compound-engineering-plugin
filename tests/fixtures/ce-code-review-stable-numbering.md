@@ -8,16 +8,16 @@
 
 ### P1 -- High
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 1 | `export_service.rb:87` | Loads all orders into memory | performance | 100 | `gated_auto -> downstream-resolver` |
-| 2 | `export_service.rb:91` | Missing pagination contract | api-contract | 75 | `manual -> downstream-resolver` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 1 | `export_service.rb:87` | Loads all orders into memory | performance | 100 |
+| 2 | `export_service.rb:91` | Missing pagination contract | api-contract | 75 |
 
 ### P2 -- Moderate
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 3 | `export_service.rb:45` | Missing error handling | correctness | 75 | `gated_auto -> downstream-resolver` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 3 | `export_service.rb:45` | Missing error handling | correctness | 75 |
 
 ### Actionable Findings
 

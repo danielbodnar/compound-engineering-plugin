@@ -657,8 +657,10 @@ describe("ce-code-review contract", () => {
     expect(template).toContain("Stable sequential finding numbers")
     expect(template).toContain("reuse those same numbers when findings are repeated in Actionable Findings")
 
+    // Per-severity tables are 5-column (# | File | Issue | Reviewer | Confidence);
+    // Route lives in the Actionable Findings table + JSON, not the scannable tables.
     const primaryFindingIds = Array.from(
-      fixture.matchAll(/^\| (\d+) \| `[^`]+` \| .* \| .* \| \d+ \| `.*` \|$/gm),
+      fixture.matchAll(/^\| (\d+) \| `[^`]+` \| .* \| .* \| \d+ \|$/gm),
       ([, id]) => Number(id),
     )
     expect(primaryFindingIds).toEqual([1, 2, 3])

@@ -4,7 +4,7 @@ Use this **exact format** when presenting synthesized review findings. Findings 
 
 **IMPORTANT:** Use pipe-delimited markdown tables (`| col | col |`). Do NOT use ASCII box-drawing characters.
 
-**IMPORTANT:** Escape literal pipe characters in table cells. Any `|` that appears inside a finding title, issue description, code snippet, regex pattern, or delimited-string example (e.g. cache key examples like `userName + "|" + groups`) must be written as `\|` so column boundaries are determined only by unescaped pipes. Unescaped pipes split the cell across columns and corrupt the row's `Reviewer`, `Confidence`, and `Route` values.
+**IMPORTANT:** Escape literal pipe characters in table cells. Any `|` that appears inside a finding title, issue description, code snippet, regex pattern, or delimited-string example (e.g. cache key examples like `userName + "|" + groups`) must be written as `\|` so column boundaries are determined only by unescaped pipes. Unescaped pipes split the cell across columns and corrupt the row's `Reviewer` and `Confidence` values (and `Route` in the Actionable Findings table).
 
 ## Example
 
@@ -21,28 +21,28 @@ Use this **exact format** when presenting synthesized review findings. Findings 
 
 ### P0 -- Critical
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 1 | `orders_controller.rb:42` | User-supplied ID in account lookup without ownership check | security | 100 | `gated_auto -> downstream-resolver` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 1 | `orders_controller.rb:42` | User-supplied ID in account lookup without ownership check | security | 100 |
 
 ### P1 -- High
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 2 | `export_service.rb:87` | Loads all orders into memory -- unbounded for large accounts | performance | 100 | `gated_auto -> downstream-resolver` |
-| 3 | `export_service.rb:91` | No pagination -- response size grows linearly with order count | api-contract, performance | 75 | `manual -> downstream-resolver` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 2 | `export_service.rb:87` | Loads all orders into memory -- unbounded for large accounts | performance | 100 |
+| 3 | `export_service.rb:91` | No pagination -- response size grows linearly with order count | api-contract, performance | 75 |
 
 ### P2 -- Moderate
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 4 | `export_service.rb:45` | Missing error handling for CSV serialization failure | correctness | 75 | `gated_auto -> downstream-resolver` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 4 | `export_service.rb:45` | Missing error handling for CSV serialization failure | correctness | 75 |
 
 ### P3 -- Low
 
-| # | File | Issue | Reviewer | Confidence | Route |
-|---|------|-------|----------|------------|-------|
-| 5 | `export_helper.rb:12` | Format detection could use early return instead of nested conditional | maintainability | 75 | `advisory -> human` |
+| # | File | Issue | Reviewer | Confidence |
+|---|------|-------|----------|------------|
+| 5 | `export_helper.rb:12` | Format detection could use early return instead of nested conditional | maintainability | 75 |
 
 ### Actionable Findings
 
@@ -110,13 +110,13 @@ This fails because: no pipe-delimited tables, no severity-grouped `###` headers,
 ## Formatting Rules
 
 - **Pipe-delimited markdown tables** for findings -- never ASCII box-drawing characters or per-finding horizontal-rule separators between entries (the report-level `---` before the verdict is still required)
-- **Escape literal `|` in table cells** -- any `|` inside a finding title, issue description, code snippet, regex pattern, or delimited-string example must be written as `\|`. Unescaped pipes are parsed as column separators and corrupt the row's `Reviewer`, `Confidence`, and `Route` columns. Applies especially to cache-key delimiter examples, regex alternations, and logical-OR operators quoted inside findings.
+- **Escape literal `|` in table cells** -- any `|` inside a finding title, issue description, code snippet, regex pattern, or delimited-string example must be written as `\|`. Unescaped pipes are parsed as column separators and corrupt the row's `Reviewer` and `Confidence` columns (and `Route` in the Actionable Findings table). Applies especially to cache-key delimiter examples, regex alternations, and logical-OR operators quoted inside findings.
 - **Severity-grouped sections** -- `### P0 -- Critical`, `### P1 -- High`, `### P2 -- Moderate`, `### P3 -- Low`. Omit empty severity levels.
 - **Stable sequential finding numbers** -- assign finding numbers once after sorting, continue them across severity sections, and reuse those same numbers when findings are repeated in Actionable Findings. Do not restart at `1` for each severity or route bucket.
 - **Always include file:line location** for code review issues
 - **Reviewer column** shows which persona(s) flagged the issue. Multiple reviewers = cross-reviewer agreement.
 - **Confidence column** shows the finding's anchor as an integer (`50`, `75`, or `100`). Never render as a float.
-- **Route column** shows the synthesized handling decision as ``<autofix_class> -> <owner>``.
+- **No `Route` column in the per-severity tables** -- the synthesized route (``<autofix_class> -> <owner>``) appears only in the Actionable Findings table and the `mode:agent` JSON. The scannable severity tables are 5 columns: `# | File | Issue | Reviewer | Confidence`.
 - **Header includes** scope, intent, and reviewer team with per-conditional justifications
 - **Mode line** -- include `interactive`, `report-only`, or `agent`
 - **Actionable Findings section** -- include when the actionable queue is non-empty (findings for the caller to handle)
