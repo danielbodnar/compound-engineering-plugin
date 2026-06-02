@@ -1,6 +1,22 @@
 # CONCEPTS.md vocabulary rules
 
-`CONCEPTS.md` defines the words that mean something specific in this codebase — substrate that `docs/solutions/` and AGENTS.md can cite without redefinition. Lives at the repo root, created lazily the first time a learning surfaces a qualifying term.
+`CONCEPTS.md` defines the words that mean something specific in this codebase — substrate that `docs/solutions/` and AGENTS.md can cite without redefinition. Lives at the repo root. Terms enter two ways — accretion and seeding (below) — and the file is created the first time either path produces a qualifying entry.
+
+## How terms enter: accretion and seeding
+
+Two paths populate the file, and they cover different gaps:
+
+- **Accretion** — a learning surfaces a term whose meaning wasn't obvious, so it gets defined. This reliably catches *peripheral* terms, because friction is what surfaces them.
+- **Seeding** — a run proactively defines the **core domain nouns** of the area it is working in. This catches the *stable-central* terms accretion never reaches: the nouns a system is built around rarely break, so they rarely appear in a learning, yet they are exactly what a reader needs to orient. Without seeding, the file fills with peripheral mechanics and never names what the project is about.
+
+### Seed goal
+
+Define the core domain nouns the area's **declared domain model** exposes that meet the qualifying bar (see "What earns a slot"). The codebase sets the count: seed every term that genuinely qualifies, none added to reach a number and none pulled from beyond the declared model to inflate one. A small domain yields a few; a large one, more. The bound is the **source** (the declared domain model of the area in scope — schema, core types, primary models, top-level domain docs — not a full-codebase trawl) and the **bar** (the same "a new engineer would need this defined" test), never a fixed quantity.
+
+### Scope of a seed
+
+- A **scoped run** — a learning capture, or a refresh narrowed to an area — seeds only that area's core nouns, and defines only terms it actually investigated against code. It does not reach for repo-wide nouns it never touched.
+- A **repo-wide bootstrap** — an explicit "create CONCEPTS.md" request — seeds the whole project's declared domain model. This is the only path that produces a coherent "what is this project" glossary; a scoped run cannot, and should not pretend to.
 
 ## Be opinionated
 
@@ -12,11 +28,11 @@ Each entry teaches its concept to a reader with no access to anything else — n
 
 - Implementation specifics (file paths, class names, function signatures, table names, library calls)
 - Status fields, dates, owners on the entries
-- Examples drawn from current code
+- Examples or current-config values drawn from the code — specific thresholds, counts, or enum values that will change. State the behavior, not the number: "each skill sets its own actionable threshold" rather than "surfaces at 50, fixes at 75."
 - Links to PRs, issues, channels, or roadmap milestones
 - Version-specific claims ("currently uses X; migrating to Y")
 
-Cross-references between entries within `CONCEPTS.md` are fine — they resolve internally. General programming vocabulary (caches, queues, jobs, sessions) and everyday domain English need no redefinition either.
+Cross-references between entries within `CONCEPTS.md` are fine — they resolve internally. General programming vocabulary (caches, queues, jobs, sessions) and everyday domain English need no redefinition either. But if an entry leans on another *project-specific* term to make sense, that term must be defined here too — an undefined project-specific sibling is itself a candidate to add.
 
 ## What earns a slot
 

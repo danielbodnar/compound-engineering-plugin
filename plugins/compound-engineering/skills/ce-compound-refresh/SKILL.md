@@ -26,6 +26,15 @@ Check if `$ARGUMENTS` contains `mode:headless`. If present, strip it from argume
 - **Use conservative confidence.** In interactive mode, borderline cases get a user question. In headless mode, borderline cases get marked stale. Err toward stale-marking over incorrect action.
 - **Always generate a report.** The report is the primary deliverable. It has two sections: **Applied** (actions that were successfully written) and **Recommended** (actions that could not be written, with full rationale so a human can apply them or run the skill interactively). The report structure is the same regardless of what permissions were granted — the only difference is which section each action lands in.
 
+## CONCEPTS.md bootstrap requests
+
+If invoked specifically to create or bootstrap `CONCEPTS.md` (e.g., "create a CONCEPTS.md", "build the concept map", "set up shared vocabulary"), the intent is ambiguous between two jobs — building the vocabulary file and running a docs/solutions refresh — so disambiguate before proceeding. Use the platform's blocking question tool: `AskUserQuestion` in Claude Code (call `ToolSearch` with `select:AskUserQuestion` first if its schema isn't loaded), `request_user_input` in Codex, `ask_user` in Gemini, `ask_user` in Pi (requires the `pi-ask-user` extension). Fall back to numbered options in chat only when no blocking tool exists in the harness or the call errors (e.g., Codex edit modes) — not because a schema load is required. Never silently skip the question. Two options:
+
+1. **Create CONCEPTS.md (build the concept map)** — seed the repo-wide concept map and stop, without running the docs/solutions phases. Read `references/concepts-vocabulary.md` and follow its **Seed goal** and **Scope of a seed** (repo-wide) rules: seed the project's core domain nouns from the declared domain model (schema, core types, primary models, top-level domain docs), each meeting the qualifying bar, the codebase setting the count. Write the preamble (see Phase 4.5), cluster per the organization rules, then run the Discoverability Check so `AGENTS.md`/`CLAUDE.md` surface the new file.
+2. **Run a refresh cycle** — proceed with the normal refresh flow below; `CONCEPTS.md` is seeded (if absent) and reconciled as part of Phase 4.5.
+
+In headless mode there is no user to ask: default to the refresh cycle (vocabulary is seeded and reconciled within Phase 4.5 regardless) and note in the report that a standalone repo-wide bootstrap was not run.
+
 ## Interaction Principles
 
 **These principles apply to interactive mode only. In headless mode, skip all user questions and apply the headless mode rules above.**
@@ -496,15 +505,15 @@ After the per-learning actions execute, aggregate the domain terms flagged acros
 **Procedure:**
 
 1. **Aggregate.** Collect qualifying terms surfaced across the learnings in scope, applying the reference's criteria. If the same term surfaced in multiple learnings with different shades of precision, **union the shades into one entry** — not three entries, not most-recent-wins.
-2. **If `CONCEPTS.md` exists**, add missing terms and refine existing entries when the corpus surfaced new precision. Do not duplicate entries already present.
-3. **If `CONCEPTS.md` does not exist** and at least one qualifying term was surfaced, **bootstrap it**. One term is enough — do not gate creation behind a minimum count, that creates an asymmetric trap where the file only ever gets created on the second eligible run. **At creation, hold the qualifying bar conservatively** — a borderline term or a class/table/file name dressed up as an entity should defer until a later run surfaces stronger signal. The conservatism is about quality, not count; updates to an existing file follow normal criteria.
-4. **Scope discipline and citation hygiene.** Bootstrap reflects only the area in scope — do not expand to other categories, and do not retroactively inject `(see CONCEPTS.md)` pointers into existing learnings. The report should note that additional entries are likely from refresh runs on other scopes.
+2. **If `CONCEPTS.md` exists**, add missing terms and refine existing entries when the corpus surfaced new precision. Do not duplicate entries already present. **Then reconcile the in-scope core nouns:** re-derive the core domain nouns of the area in scope from its declared model (per the **Seed goal** in the reference) and backfill any that are central but missing. This is the every-run safety net for stable-central terms that friction never surfaces — bounded to the area in scope, defining only terms investigated this run, never a repo-wide sweep.
+3. **If `CONCEPTS.md` does not exist** and at least one qualifying term was surfaced, **bootstrap it — and seed, don't write a single term.** Alongside the surfaced term(s), seed the core domain nouns of the area in scope per the reference's **Seed goal**, so the file is anchored from creation rather than a lone peripheral entry (and so captured terms don't dangle against undefined siblings). The seed stays scoped to the area in scope — a repo-wide concept map comes only from the explicit bootstrap path above, not from a scoped refresh. **At creation, hold the qualifying bar conservatively for borderline terms** — a borderline term or a class/table/file name dressed up as an entity defers to a later run; clear core nouns are seeded, borderline ones wait. The conservatism is about quality, not count; updates to an existing file follow normal criteria.
+4. **Scope discipline and citation hygiene.** Bootstrap, seed, and reconcile reflect only the area in scope — do not expand to other categories, and do not retroactively inject `(see CONCEPTS.md)` pointers into existing learnings. (The repo-wide bootstrap path above is the deliberate exception — it intentionally covers the whole declared model.) The report should note that additional entries are likely from refresh runs on other scopes.
 5. **Initial structure.** When bootstrapping, start the file with this preamble under the `# Concepts` heading:
 
    > Shared domain vocabulary for this project — entities, named processes, and status concepts with project-specific meaning. Accretes as ce-compound and ce-compound-refresh process learnings; direct edits are fine. Glossary only, not a spec or catch-all.
 
    Then add entries. Let term count drive shape: 1-4 terms → flat headings, more → cluster by domain relationship per the rules in `references/concepts-vocabulary.md`.
-6. **Scrub violations.** Scan existing entries for content that violates `references/concepts-vocabulary.md` criteria — implementation specifics (file paths, class names, function signatures, code references), status/owner/date metadata, or duplicates of terms covered under a different name. Rewrite or consolidate. The full sweep is appropriate here because refresh is an audit; ce-compound's same-named phase scopes corrections to entries already being touched.
+6. **Scrub violations.** Scan existing entries for content that violates `references/concepts-vocabulary.md` criteria — implementation specifics (file paths, class names, function signatures, code references), current-config values (thresholds, counts, enum values that will drift), status/owner/date metadata, duplicates of terms covered under a different name, or entries that lean on an undefined project-specific sibling (add the sibling or rephrase). Rewrite or consolidate. The full sweep is appropriate here because refresh is an audit; ce-compound's same-named phase scopes corrections to the coherence neighborhood of entries being touched.
 
 If no Phase 1 signals qualified after applying the reference's criteria, record that outcome explicitly in the report's `CONCEPTS.md` line (e.g., "scanned, no qualifying terms"). Do not silently skip — the visible scan-and-no-result record is the audit signal that the reference was consulted.
 
@@ -531,7 +540,7 @@ Deleted: W
 Skipped: V
 Marked stale: S
 
-CONCEPTS.md: <scanned, no qualifying terms | created with N entries | updated — N added, N refined, N scrubbed>
+CONCEPTS.md: <scanned, no qualifying terms | created with N entries (M seeded) | updated — N added, N refined, N reconciled, N scrubbed | repo-wide map created with N entries>
 ```
 
 Then for EVERY file processed, list:

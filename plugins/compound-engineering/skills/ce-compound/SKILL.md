@@ -25,7 +25,7 @@ Captures problem solutions while context is fresh, creating structured documenta
 
 ## CONCEPTS.md bootstrap requests
 
-If invoked to create or bootstrap `CONCEPTS.md` rather than document a solved problem, do not run normal phases. Explain: the file accretes as ce-compound and ce-compound-refresh process real learnings; cold-start codebase scans aren't supported because the qualifying bar is judgmental. Redirect to ce-compound on a real learning, ce-compound-refresh on an existing corpus, or direct hand-editing. Then exit.
+If invoked specifically to create or bootstrap `CONCEPTS.md` from scratch rather than to document a solved problem, do not run the normal phases — `ce-compound` populates `CONCEPTS.md` only as a side effect of documenting a real learning (it seeds the *learning's area*, not the whole repo; see Phase 2.4). Repo-wide concept-map creation is `ce-compound-refresh`'s job. Redirect a standalone bootstrap request to `ce-compound-refresh` (which asks whether to build the concept map or run a refresh cycle), then exit.
 
 ## Mode Detection
 
@@ -256,15 +256,17 @@ When creating a new doc, preserve the section order from `assets/resolution-temp
 
 **First, read `references/concepts-vocabulary.md`.** This is unconditional. Do not pre-judge from memory that nothing qualifies — the reference's criteria are non-obvious and qualifying terms often live in the surrounding conversation rather than the new doc itself. Reading the reference is what makes the rest of the phase possible.
 
-Then, applying those criteria, scan the new doc **and** the surrounding conversation for qualifying domain terms. If `CONCEPTS.md` exists at repo root, add missing qualifying terms and refine existing entries when new precision surfaced. If it does not exist and at least one qualifying term surfaced, create it lazily.
+Then, applying those criteria, scan the new doc **and** the surrounding conversation for qualifying domain terms. If `CONCEPTS.md` exists at repo root, add missing qualifying terms and refine existing entries when new precision surfaced. If it does not exist and at least one qualifying term surfaced, create it.
 
-**At creation only, hold the qualifying bar conservatively.** A borderline term, or a class/table/file name dressed up as an entity, does not justify seeding a new file — defer until a later run surfaces stronger signal. This conservatism applies to creation quality only; updates to an existing file follow the normal criteria.
+**Seed the learning's area at creation — don't write a lone term.** When `CONCEPTS.md` does not yet exist, alongside the surfaced term also seed the core domain nouns of the area this learning touched, following the **Seed goal** and **Scope of a seed** rules in `references/concepts-vocabulary.md`. The seed is scoped to the learning's area (the modules and domain the fix touched) and defines only terms investigated here — it does not reach for repo-wide nouns. This anchors the surfaced term so it does not dangle against undefined siblings. A repo-wide concept map is `ce-compound-refresh`'s bootstrap path, not this one.
+
+**At creation, hold the qualifying bar conservatively for borderline terms.** A borderline term, or a class/table/file name dressed up as an entity, defers to a later run — clear core nouns are seeded, borderline ones wait. The conservatism is about quality, not count; updates to an existing file follow the normal criteria.
 
 **When bootstrapping the file, start with this preamble under the `# Concepts` heading**, then add the qualifying entries below it:
 
 > Shared domain vocabulary for this project — entities, named processes, and status concepts with project-specific meaning. Accretes as ce-compound and ce-compound-refresh process learnings; direct edits are fine. Glossary only, not a spec or catch-all.
 
-**Opportunistically fix violations you notice while editing.** If an entry being added/refined or an adjacent existing entry contains implementation specifics (file paths, class names, function signatures, code references), rewrite to the glossary standard. Do not full-audit the file — confine corrections to entries near the ones already being touched. Broader audit is ce-compound-refresh's job.
+**Refresh the coherence neighborhood of any entry you touch.** When adding or editing an entry, also inspect its *coherence neighborhood* — its cluster siblings and the terms it cross-references or that reference it. Within that neighborhood, do two things: fix glossary violations (implementation specifics — file paths, class names, function signatures, current-config values), and refresh entries the learning's own evidence shows have drifted. Bounds: neighborhood only, never a full-file audit; refresh only on evidence already in hand; if judging a neighbor would require investigation this learning did not do, flag it for `ce-compound-refresh` rather than editing on a guess. The test: after the edit, would a reader find the touched entry's siblings or referenced terms inconsistent with it? Broader audit is `ce-compound-refresh`'s job.
 
 If no terms qualified after applying the reference's criteria, record that outcome explicitly in the success output (e.g., "Vocabulary capture: scanned, no qualifying terms"). Do not silently skip — the visible scan-and-no-result record is the audit signal that the reference was consulted.
 
@@ -497,7 +499,7 @@ Track: <bug | knowledge>
 Category: <category>
 Overlap: <none | low | moderate — see <path> | high — existing doc updated>
 Instruction-file edit: <none needed | applied to <path> | gap noted, not applied>
-CONCEPTS.md: <scanned, no qualifying terms | created with N entries | updated — N added, N refined>
+CONCEPTS.md: <scanned, no qualifying terms | created with N entries (M seeded from the learning's area) | updated — N added, N refined>
 Refresh recommendation: <none | scope hint for /ce-compound-refresh>
 
 Documentation complete
